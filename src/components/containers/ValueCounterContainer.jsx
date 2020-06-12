@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ValueCounterView } from "../views";
+import { connect } from "react-redux";
 /*
 
 I want to keep my view layer as my view layer (ReactJS);
@@ -17,13 +18,31 @@ I will be about to read from (mapState) the Redux store and write to (mapDispatc
 */
 
 class ValueCounterContainer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    console.log("in constructor")
+    super(props);
+    console.log("this.props: ", this.props)
   }
 
   render() {
-    return <ValueCounterView />
+    return <ValueCounterView counterValue = {this.props.currentV}/>
   }
 }
 
-export default ValueCounterContainer;
+// At this point, there will be a key called "currentValue" and value (for that key) which is state.counterValueReducer
+function mapState(state) {
+  console.log("in map state:")
+  console.log("redux store is: ", state)
+  return {
+    currentV: state.storeValue
+  }
+}
+
+// function mapDispatch(value) {
+//   return{
+
+//   }
+// }
+
+
+export default connect(mapState)(ValueCounterContainer);

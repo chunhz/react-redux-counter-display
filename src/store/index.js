@@ -6,15 +6,14 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // Individual reducers altogether under an alias;
 
 // Make a dummy reducer function here;
-function counterValueReducer(state = 0, action) {
-  switch (action.type) {
+function counterValue(state = 0, action){
+  switch(action.type){
     default:
       return state;
   }
 }
-
 // Construct our Redux store;
-const rootReducer = combineReducers(counterValueReducer);
+const rootReducer = combineReducers({storeValue: counterValue}); // combine reducer takes in object from function counterValueReducer
 const logger = createLogger({ collapsed: true });
 const middleware = composeWithDevTools(applyMiddleware(logger));
 const store = createStore(rootReducer, middleware); // 2nd arg: middleware;
