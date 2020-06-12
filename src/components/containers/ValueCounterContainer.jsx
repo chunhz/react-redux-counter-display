@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { ValueCounterView } from "../views";
 import { connect } from "react-redux";
+
+import { incrementByOne, incrementByAmount, decrementByOne } from '../../store/utilities/counterValue'
+// import { decrementByOne} from '../../store/utilities/counterValue'
 /*
 
 I want to keep my view layer as my view layer (ReactJS);
@@ -22,10 +25,29 @@ class ValueCounterContainer extends Component {
     console.log("in constructor")
     super(props);
     console.log("this.props: ", this.props)
+    this.state = {
+      amountToIncrementBy: 0,
+    }
   }
-
+  handleIncrementByOne = () => {
+    this.props.incrementByOne();
+  }
+  handleDecrementByOne = () => {
+    this.props.decrementByOne();
+  }
+  handleIncrementChange = (event) => {
+    this.setState({amountToIncrementBy: Number(event.target.value)});
+  }
+  handleIncrementByAmount = () => {
+    this.props.handleIncrementByAmount(this.state.amountToIncrementBy);
+  }
   render() {
-    return <ValueCounterView counterValue = {this.props.currentV}/>
+    return <ValueCounterView 
+    counterValue = {this.props.currentV}
+    handleIncrementByOne={this.handleIncrementByOne}
+    handleDecrementByOne={this.handleDecrementByOne}
+    handleIncrementByAmount={this.handleIncrementByAmount}
+    />
   }
 }
 
@@ -33,16 +55,19 @@ class ValueCounterContainer extends Component {
 function mapState(state) {
   console.log("in map state:")
   console.log("redux store is: ", state)
+  console.log("Current V is : ", state.storeValue)
   return {
     currentV: state.storeValue
   }
 }
 
-// function mapDispatch(value) {
-//   return{
+const mapDispatch = (dispatch) => {
+  return {
+    incrementByOne: () => dispatch(incrementByOne()),
+    decrementByOne: () => dispatch(decrementByOne()),
+    handleIncrementByAmount: (amount) => dispatch(incrementByAmount(amount))
+  }
+}
 
-//   }
-// }
 
-
-export default connect(mapState)(ValueCounterContainer);
+export default connect(mapState, mapDispatch)(ValueCounterContainer);
