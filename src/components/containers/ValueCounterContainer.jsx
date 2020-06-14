@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ValueCounterView } from "../views";
 import { connect } from "react-redux";
 
-import { incrementByOne, incrementByAmount, decrementByOne } from '../../store/utilities/counterValue'
+import { incrementByOne, incrementByAmount, decrementByOne, decrementByAmount } from '../../store/utilities/counterValue'
 // import { decrementByOne} from '../../store/utilities/counterValue'
 /*
 
@@ -24,9 +24,9 @@ class ValueCounterContainer extends Component {
   constructor(props) {
     console.log("in constructor")
     super(props);
-    console.log("this.props: ", this.props)
     this.state = {
       amountToIncrementBy: 0,
+      amountToDecreaseBy: 0,
     }
   }
   handleIncrementByOne = () => {
@@ -39,15 +39,30 @@ class ValueCounterContainer extends Component {
     this.setState({amountToIncrementBy: Number(event.target.value)});
   }
   handleIncrementByAmount = () => {
-    this.props.handleIncrementByAmount(this.state.amountToIncrementBy);
+    this.props.incrementByAmount(this.state.amountToIncrementBy);
+  }
+  handleDecrementChange = (event) => {
+    this.setState({amountToDecreaseBy: Number(event.target.value)});
+  }
+  handleDecrementByAmount = () => {
+    this.props.decrementByAmount(this.state.amountToDecreaseBy);
   }
   render() {
-    return <ValueCounterView 
+    return <div>
+    <ValueCounterView 
     counterValue = {this.props.currentV}
     handleIncrementByOne={this.handleIncrementByOne}
     handleDecrementByOne={this.handleDecrementByOne}
     handleIncrementByAmount={this.handleIncrementByAmount}
+    handleDecrementByAmount={this.handleDecrementByAmount}
     />
+     <div>
+    <input type="text"  name= "amountToIncrementBy" value = {this.state.amountToIncrementBy} onChange={this.handleIncrementChange}/>
+    <button onClick={this.handleIncrementByAmount}>Increase by amount</button>
+   </div>
+    <input type="text" name= "amountToDecreseBy" value = {this.state.amountToDecreaseBy} onChange={this.handleDecrementChange}/>
+    <button onClick={this.handleDecrementByAmount}>Decrease by amount</button>
+    </div>
   }
 }
 
@@ -55,9 +70,9 @@ class ValueCounterContainer extends Component {
 function mapState(state) {
   console.log("in map state:")
   console.log("redux store is: ", state)
-  console.log("Current V is : ", state.storeValue)
+  console.log("state", state.counterValue)
   return {
-    currentV: state.storeValue
+    currentV: state.counterValue
   }
 }
 
@@ -65,7 +80,8 @@ const mapDispatch = (dispatch) => {
   return {
     incrementByOne: () => dispatch(incrementByOne()),
     decrementByOne: () => dispatch(decrementByOne()),
-    handleIncrementByAmount: (amount) => dispatch(incrementByAmount(amount))
+    incrementByAmount: (value) => dispatch(incrementByAmount(value)),
+    decrementByAmount: (value) => dispatch(decrementByAmount(value)),
   }
 }
 
