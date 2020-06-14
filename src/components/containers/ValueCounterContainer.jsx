@@ -55,13 +55,15 @@ class ValueCounterContainer extends Component {
     handleDecrementByOne={this.handleDecrementByOne}
     handleIncrementByAmount={this.handleIncrementByAmount}
     handleDecrementByAmount={this.handleDecrementByAmount}
+    handleDecrementChange={this.handleDecrementChange}
+    handleIncrementChange={this.handleIncrementChange}
     />
-     <div>
+     {/* <div>
     <input type="text"  name= "amountToIncrementBy" value = {this.state.amountToIncrementBy} onChange={this.handleIncrementChange}/>
     <button onClick={this.handleIncrementByAmount}>Increase by amount</button>
    </div>
     <input type="text" name= "amountToDecreseBy" value = {this.state.amountToDecreaseBy} onChange={this.handleDecrementChange}/>
-    <button onClick={this.handleDecrementByAmount}>Decrease by amount</button>
+    <button onClick={this.handleDecrementByAmount}>Decrease by amount</button> */}
     </div>
   }
 }
